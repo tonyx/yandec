@@ -2,9 +2,7 @@ package org.tonyx;
 
 import org.tonyxzt.language.core.ContentProvider;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
@@ -32,7 +30,7 @@ public class YandecContentProvider implements ContentProvider{
         String toReturn="";
 
         //URL url = new URL("http://slovari.yandex.ru"+"/"+word+"/"+langIn+"/#lingvo/");
-        URL url = new URL("http://slovari.yandex.ru"+"/"+ URLEncoder.encode(word,"UTF-8")+"/"+langIn+"/#lingvo/");
+        URL url = new URL("http://slovari.yandex.ru"+"/"+ URLEncoder.encode(word,"UTF-8")+"/"+langIn+"-"+langOut+"/#lingvo/");
 
         InputStream response = url.openStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(response,"UTF-8"));
@@ -42,6 +40,14 @@ public class YandecContentProvider implements ContentProvider{
         }
 
         reader.close();
+
+        // debug
+        File file = new File("C:\\temp\\outttt.txt");
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter
+                (new FileOutputStream(file),"UTF8"));
+        out.write(toReturn);
+        out.close();
+
 
         return toReturn;
     }

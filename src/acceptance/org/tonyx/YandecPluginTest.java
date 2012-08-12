@@ -85,5 +85,46 @@ public class YandecPluginTest {
         verify(ios).output(argThat(privet));
     }
 
+    @Test
+    public void singleMatchFratellino() {
+        // given
+        ArgumentMatcher<String> privet = new ArgumentMatcher<String>() {
+            @Override
+            public boolean matches(Object object) {
+               return false;
+          //     return ((String)object).contains("fratellino");
+            }
+        };
+        String[] command = new String[]{"--dic=yandec","--oriLang=ru","--targetLang=it","братишка"};
+        CommandLineToStatusClassWrapper commandLineWrapper = new CommandLineToStatusClassWrapper(command,mapDictionaries,ios);
+        Translator translator = new Translator(mapDictionaries,browserActivator,ios,commandLineWrapper);
+
+        // when
+        translator.doAction();
+
+        // then
+        verify(ios).output(argThat(privet));
+    }
+
+    @Test
+    public void singleMatchDedushkaEnglish() {
+        // given
+        ArgumentMatcher<String> privet = new ArgumentMatcher<String>() {
+            @Override
+            public boolean matches(Object object) {
+                return ((String)object).contains("prematrimoniale");
+            }
+        };
+        String[] command = new String[]{"--dic=yandec","--oriLang=ru","--targetLang=it","добрачный"};
+        CommandLineToStatusClassWrapper commandLineWrapper = new CommandLineToStatusClassWrapper(command,mapDictionaries,ios);
+        Translator translator = new Translator(mapDictionaries,browserActivator,ios,commandLineWrapper);
+
+        // when
+        translator.doAction();
+
+        // then
+        verify(ios).output(argThat(privet));
+    }
+
 
 }
